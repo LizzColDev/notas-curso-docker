@@ -156,53 +156,136 @@ Recuerda que algunos pasos pueden requerir privilegios de superusuario (sudo) y 
 </details>
 </details>
 <details>
-<summary><b>Comandos</b></summary>        
-
-1. **`docker images`**: Muestra la lista de imágenes disponibles en tu sistema.
+<summary><b>Comandos</b></summary>   
+<details>     
+<summary><b>Comandos Imágenes</b></summary>  
+- **`docker images`**: Muestra la lista de imágenes descargadas en tu sistema.
     
-    ![Untitled](images/Untitled.png)
+    ![Untitled](Curso%20Docker%20204db67d769c4305b1441436386bacae/Untitled.png)
     
-2. **`docker pull <nombre_imagen>`**: Descarga una imagen de un repositorio público, como Docker Hub. Por ejemplo, **`docker pull ubuntu`** descarga la imagen de Ubuntu.
+- **`docker pull <nombre_imagen>`**: Descarga una imagen de Docker desde un registro público o privado.  Por ejemplo, **`docker pull ubuntu`** descarga la imagen de Ubuntu.
     
     Para descargar una versión en especial ej; docker pull node:18
     
-    ![Untitled](images/Untitled%201.png)
+    ![Untitled](Curso%20Docker%20204db67d769c4305b1441436386bacae/Untitled%201.png)
     
-3. **`docker rmi <nombre_imagen>`**: Elimina una imagen de tu sistema. Puedes utilizar el nombre o el ID de la imagen. Por ejemplo, **`docker rmi ubuntu`** elimina la imagen de Ubuntu.
+- **`docker build -t <nombre_imagen> <directorio_contexto>`**: Crea una imagen de Docker a partir de un Dockerfile en el directorio de contexto especificado.
+- **`docker push <nombre_imagen>`**: Sube una imagen de Docker a un registro público o privado para compartirla con otros.
+- **`docker rmi <nombre_imagen>`**: Elimina una imagen de Docker de tu sistema.
     
-    ![Untitled](images/Untitled%202.png)
+    ![Untitled](Curso%20Docker%20204db67d769c4305b1441436386bacae/Untitled%202.png)
     
-4. **`docker build -t <nombre_imagen> <ruta_directorio>`**: Construye una imagen a partir de un Dockerfile. Debes estar ubicado en el directorio que contiene el Dockerfile. El parámetro **`t`** permite asignar un nombre o una etiqueta a la imagen.
-5. **`docker create`**: El comando **`docker create`** se utiliza para crear un nuevo contenedor a partir de una imagen existente. A diferencia de **`docker build`**, **`docker create`** no construye una nueva imagen, sino que crea una instancia o contenedor a partir de una imagen existente. Al utilizar este comando, se crea un contenedor basado en la imagen especificada, pero aún no se ejecuta.
+- **`docker save <nombre_imagen> -o <archivo_tar>`**: Guarda una imagen de Docker en un archivo tar.
+- **`docker load -i <archivo_tar>`**: Carga una imagen de Docker desde un archivo tar.
+- **`docker tag <nombre_imagen> <nombre_imagen:tag>`**: Etiqueta una imagen de Docker con un nuevo nombre o tag.
+- **`docker history <nombre_imagen>`**: Muestra el historial de capas de una imagen de Docker.
+- **`docker inspect <nombre_imagen>`**: Muestra información detallada sobre una imagen de Docker.
+</details>
+<details>
+<summary><b>Comandos de contenedores</b></summary>  
+
+- **`docker create`**: El comando **`docker create`** se utiliza para crear un nuevo contenedor a partir de una imagen existente. A diferencia de **`docker build`**, **`docker create`** no construye una nueva imagen, sino que crea una instancia o contenedor a partir de una imagen existente. Al utilizar este comando, se crea un contenedor basado en la imagen especificada, pero aún no se ejecuta.
     
     Después de crear un contenedor con **`docker create`**, se puede utilizar el comando **`docker start`** para iniciarlo y ejecutarlo. También es posible utilizar el comando **`docker run`**, que combina los pasos de creación y inicio del contenedor en un solo comando.
     
-    ![Untitled](images/Untitled%203.png)
+    ![Untitled](Curso%20Docker%20204db67d769c4305b1441436386bacae/Untitled%203.png)
     
-6. **`docker history <nombre_imagen>`**: Muestra el historial de capas que componen una imagen y la información asociada, como el comando utilizado en cada capa y su tamaño.
-7. **`docker inspect <nombre_imagen>`**: Proporciona información detallada sobre una imagen, incluyendo su configuración, metadatos, capas y más.
-8. **`docker tag <nombre_imagen> <nuevo_nombre>`**: Crea una etiqueta o alias para una imagen existente. Esto es útil para asignar versiones o nombres más descriptivos a las imágenes.
-9. **`docker ps`:** El comando **`docker ps`** se utiliza para listar los contenedores en ejecución en tu sistema Docker. Proporciona información básica sobre los contenedores, como su ID, nombre, imagen utilizada, estado, puertos expuestos y más.
+- **`docker run`**: Crea y ejecuta un nuevo contenedor a partir de una imagen.
+Ejemplo: **`docker run ubuntu`**
     
-    Al ejecutar **`docker ps`** sin opciones adicionales, se mostrarán solo los contenedores en ejecución en ese momento. Aquí hay algunos ejemplos de cómo puedes usar el comando **`docker ps`**:
+    Pero te abrirá los logs y te dejará, si sales se cortará el contenedor, puedes usar el flag -d para que se cree la imágen, cree el contenedor y lo inicialice y te deje en la línea de comando: 
     
-    - **`docker ps`**: Muestra los contenedores en ejecución.
-        
-        ![Untitled](images/Untitled%204.png)
-        
-    - **`docker ps -a`**: Muestra todos los contenedores, incluidos los que están detenidos o en estado de salida.
-    - **`docker ps -q`**: Muestra solo los ID de los contenedores en ejecución (útil si solo necesitas los identificadores para realizar otras operaciones).
-    - **`docker ps -l`**: Muestra el último contenedor creado, independientemente de su estado (ejecución o detenido).
-    - **`docker ps --format "table {{.ID}}\t{{.Image}}\t{{.Status}}"`**: Muestra una tabla personalizada con las columnas ID, Imagen y Estado de los contenedores.
-10. **`docker stop`:** El comando **`docker stop`** se utiliza para detener uno o varios contenedores en ejecución. Puedes detener los contenedores proporcionando uno o más identificadores o nombres de contenedor como argumentos al comando. Aquí tienes algunos ejemplos de cómo puedes usar el comando **`docker stop`**:
-    - **`docker stop <nombre_contenedor>`**: Detiene un contenedor específico utilizando su nombre. Por ejemplo, **`docker stop my-container`** detiene el contenedor con el nombre "my-container".
-    - **`docker stop <ID_contenedor>`**: Detiene un contenedor específico utilizando su identificador. Puedes obtener el identificador del contenedor utilizando el comando **`docker ps`**. Por ejemplo, **`docker stop abc123def456`** detiene el contenedor con el ID "abc123def456".
-    - **`docker stop $(docker ps -aq)`**: Detiene todos los contenedores en ejecución en tu sistema. El comando **`docker ps -aq`** lista todos los identificadores de los contenedores en ejecución, y **`$(...)`** se utiliza para pasar esos identificadores como argumentos al comando **`docker stop`**.
+    **`docker run -d mongo`:**
+    
+    ![Untitled](Curso%20Docker%20204db67d769c4305b1441436386bacae/Untitled%204.png)
+    
+- **`docker ps`**: Muestra la lista de contenedores en ejecución.
+Ejemplo: **`docker ps`**
+- **`docker ps`-a** : Muestra todos los contenedores, incluso los que no están en ejecución.
+- **`docker stop`**: Detiene un contenedor en ejecución.
+Ejemplo: **`docker stop <container_id>`**
+- **`docker start`**: Inicia un contenedor detenido.
+Ejemplo: **`docker start <container_id>`**
+- **`docker restart`**: Reinicia un contenedor en ejecución.
+Ejemplo: **`docker restart <container_id>`**
+- **`docker rm`**: Elimina uno o más contenedores.
+Ejemplo: **`docker rm <container_id>`**
+- **`docker exec`**: Ejecuta un comando dentro de un contenedor en ejecución.
+Ejemplo: **`docker exec <container_id> <command>`**
+- **`docker logs`**: Muestra los registros (logs) de un contenedor en ejecución.
+Ejemplo: **`docker logs <container_id>`**
+- **`docker inspect`**: Muestra información detallada sobre un contenedor.
+Ejemplo: **`docker inspect <container_id>`**
+- **`docker attach`**: Conecta una terminal local a un contenedor en ejecución.
+Ejemplo: **`docker attach <container_id>`**
+
+Estos son solo algunos ejemplos de comandos básicos de Docker para contenedores. Docker ofrece una amplia variedad de comandos y opciones adicionales para administrar contenedores, redes, volúmenes, imágenes, etc. Puedes consultar la documentación oficial de Docker para obtener más información sobre los comandos y sus opciones: **[https://docs.docker.com/](https://docs.docker.com/)**
+
+</details>
 
 Estos son solo algunos comandos básicos para la gestión de imágenes en Docker. Puedes explorar más comandos y opciones en la documentación oficial de Docker para adaptarlos a tus necesidades específicas. 
 
 [Docker Hub Container Image Library | App Containerization](https://hub.docker.com/)
 
 Recuerda que muchos de estos comandos requieren privilegios de superusuario (sudo) para ser ejecutados.
+</details>
 
+<details>
+<summary><b>Conectándose a los contenedores</b></summary>   
+
+1. **Crear un archivo Dockerfile**: El Dockerfile es un archivo de texto que contiene las instrucciones para construir una imagen de Docker. En tu proyecto, crea un archivo llamado **`Dockerfile`** sin extensión y colócalo en la raíz del proyecto.
+
+2. **Definir la configuración del contenedor**: Abre el archivo **`Dockerfile`** en un editor de texto y especifica la configuración del contenedor. Aquí es donde puedes seleccionar una imagen base, copiar archivos al contenedor, instalar dependencias, configurar variables de entorno, entre otras cosas. A continuación, hay un ejemplo básico:
+    
+    ```docker
+    
+    # Selecciona la imagen base
+    FROM nombre_imagen
+    
+    # Copia los archivos del proyecto al contenedor
+    COPY ruta_proyecto /ruta_contenedor
+    
+    # Instala las dependencias necesarias
+    RUN comando_instalacion_dependencias
+    
+    # Establece la variable de entorno
+    ENV NOMBRE_VARIABLE valor_variable
+    
+    # Especifica el comando que se ejecutará al iniciar el contenedor
+    CMD ["comando_inicializacion"]  
+    
+    ```
+    
+    Asegúrate de reemplazar **`nombre_imagen`** con la imagen de Docker que deseas utilizar, **`ruta_proyecto`** con la ruta de tu proyecto en el sistema de archivos local y ajusta las otras líneas según las necesidades de tu proyecto.
+    
+3. **Construir la imagen**: Abre una terminal en la ubicación del archivo **`Dockerfile`** y ejecuta el siguiente comando para construir la imagen de Docker:
+    
+    ```bash
+    
+    docker build -t nombre_imagen:etiqueta .
+    
+    ```
+    
+    Reemplaza **`nombre_imagen`** con el nombre que desees darle a tu imagen y **`etiqueta`** con una etiqueta descriptiva (por ejemplo, "latest" para la última versión). El punto **`.`** indica que el contexto de construcción es el directorio actual.
+    
+4. **Ejecutar el contenedor**: Una vez que la imagen se haya construido correctamente, puedes ejecutar un contenedor basado en esa imagen. Utiliza el siguiente comando:
+    
+    ```bash
+    
+    docker run [opciones] nombre_imagen
+    
+    ```
+    
+    Por ejemplo:
+    
+    ```bash
+    
+    docker run -p puerto_host:puerto_contenedor nombre_imagen
+    
+    ```
+    
+    Reemplaza **`nombre_imagen`** con el nombre de la imagen que construiste. Puedes utilizar opciones adicionales para configurar la red, volúmenes, variables de entorno, entre otras cosas, según las necesidades de tu proyecto.
+    
+
+Con estos pasos, puedes conectar tu proyecto a un contenedor Docker y ejecutarlo en ese entorno. Asegúrate de revisar la documentación de Docker para obtener más detalles sobre las opciones y comandos disponibles.
 </details>
