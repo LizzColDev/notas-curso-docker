@@ -289,3 +289,200 @@ Recuerda que muchos de estos comandos requieren privilegios de superusuario (sud
 
 Con estos pasos, puedes conectar tu proyecto a un contenedor Docker y ejecutarlo en ese entorno. Asegúrate de revisar la documentación de Docker para obtener más detalles sobre las opciones y comandos disponibles.
 </details>
+
+
+<details>
+<summary><b>Docker compose</b></summary>   
+
+Docker Compose es una herramienta que simplifica el despliegue y la gestión de aplicaciones compuestas por múltiples contenedores Docker. Permite definir la configuración de todos los contenedores de una aplicación en un archivo YAML llamado "docker-compose.yml". En este archivo, puedes especificar las imágenes, los volúmenes, las redes y otras configuraciones necesarias para cada contenedor.
+
+A continuación, te explico los pasos básicos para usar Docker Compose:
+
+1. Instalación: Asegúrate de tener Docker Compose instalado en tu sistema. Puedes encontrar las instrucciones de instalación en la documentación oficial de Docker.
+2. Crear el archivo docker-compose.yml: Crea un archivo llamado "docker-compose.yml" en el directorio raíz de tu proyecto. En este archivo, definirás los servicios de tu aplicación, que son los contenedores que deseas ejecutar. Cada servicio incluirá información sobre la imagen, los volúmenes, las redes y otras configuraciones.
+3. Definir servicios: Dentro del archivo docker-compose.yml, utiliza la sintaxis YAML para definir los servicios de tu aplicación. Cada servicio tiene un nombre único y puede tener varias propiedades, como "image" (para especificar la imagen del contenedor), "ports" (para exponer puertos), "volumes" (para montar volúmenes), entre otros.
+4. Construir y ejecutar los contenedores: Desde el directorio donde se encuentra el archivo docker-compose.yml, ejecuta el comando **`docker-compose up`**. Esto iniciará todos los contenedores definidos en el archivo. Si las imágenes especificadas no están disponibles localmente, Docker Compose las descargará automáticamente.
+5. Gestión de los contenedores: Puedes utilizar comandos de Docker Compose, como **`docker-compose ps`** (para listar los contenedores en ejecución), **`docker-compose stop`** (para detener los contenedores) y **`docker-compose rm`** (para eliminar los contenedores) para administrar tu aplicación compuesta.
+6. Escalar servicios: Si deseas aumentar o disminuir el número de instancias de un servicio, puedes utilizar el comando **`docker-compose scale`** seguido del nombre del servicio y la cantidad de instancias deseadas. Por ejemplo, **`docker-compose scale web=3`** iniciará tres instancias del servicio llamado "web".
+
+Docker Compose proporciona una forma más eficiente y estructurada de gestionar aplicaciones Docker complejas, ya que puedes definir y orquestar múltiples contenedores con facilidad. Recuerda consultar la documentación oficial de Docker Compose para obtener más información sobre las características y las opciones avanzadas disponibles
+
+![Untitled](Curso%20Docker%20204db67d769c4305b1441436386bacae/Untitled%205.png)
+</details>
+
+<details>
+<summary><b>Volumes</b></summary>  
+
+En Docker, los volúmenes son una forma de persistir y compartir datos entre contenedores y el host. Un volumen en Docker es un directorio o un archivo en el sistema de archivos del host que se monta en un directorio dentro del contenedor.
+<details>
+<summary><b>Volumes</b></summary>  
+
+1. **Persistencia de datos**: Los datos almacenados en un volumen persisten incluso después de que se detiene o se elimina un contenedor. Esto significa que los datos no se pierden cuando se elimina un contenedor y se pueden utilizar en otros contenedores.
+2. **Compartición de datos**: Los volúmenes permiten compartir datos entre contenedores. Varios contenedores pueden montar el mismo volumen y acceder a los datos almacenados en él.
+3. **Rendimiento**: Los volúmenes en Docker se manejan de forma eficiente y tienen un mejor rendimiento en comparación con la copia de archivos dentro de los contenedores.
+4. **Flexibilidad**: Los volúmenes pueden ser utilizados tanto por contenedores en ejecución como por imágenes de contenedores durante la creación, lo que permite configurar y personalizar la persistencia de datos según las necesidades del proyecto.
+</details>
+<details>
+<summary><b>Tipos de Volumes</b></summary>  
+
+1. **Volúmenes de Docker**: Los volúmenes de Docker son volúmenes administrados por Docker y se crean y gestionan utilizando los comandos **`docker volume create`**, **`docker volume ls`** y **`docker volume rm`**. Los volúmenes de Docker se pueden montar en los contenedores especificando el nombre del volumen o utilizando la opción **`-volume`** o **`v`** al ejecutar el comando **`docker run`**.
+2. **Montaje de directorios del host**: Puedes montar un directorio del host en un contenedor utilizando la opción **`-volume`** o **`v`** al ejecutar el comando **`docker run`**. Por ejemplo, **`docker run -v /ruta/directorio-host:/ruta/directorio-contenedor`**.
+3. **Montaje de volúmenes anónimos**: También puedes montar un volumen anónimo en un contenedor utilizando la opción **`-volume`** o **`v`** al ejecutar el comando **`docker run`** sin especificar un nombre de volumen. Por ejemplo, **`docker run -v /ruta/directorio-contenedor`**.
+4. **Montaje de volúmenes nombrados**: Puedes crear un volumen nombrado utilizando el comando **`docker volume create`** y luego montarlo en un contenedor utilizando la opción **`-volume`** o **`v`** al ejecutar el comando **`docker run`**. Por ejemplo, **`docker volume create nombre-volumen`** y luego **`docker run -v nombre-volumen:/ruta/directorio-contenedor`**.
+</details>
+
+<details>
+<summary><b>Cómo usarlos</b></summary>  
+<details>
+<summary><b>Desde la terminal</b></summary>  
+1. Crear un volumen:
+Puedes crear un volumen utilizando el comando **`docker volume create`** seguido del nombre del volumen que deseas crear. Por ejemplo:
+    
+    ```
+    luaCopy code
+    docker volume create mi-volumen
+    
+    ```
+    
+2. Montar un volumen en un contenedor al ejecutarlo:
+Puedes montar un volumen en un contenedor cuando lo ejecutas utilizando la opción **`-volume`** o **`v`**. Debes especificar el nombre del volumen y la ruta del directorio dentro del contenedor donde deseas montarlo. Por ejemplo:
+    
+    ```
+    javascriptCopy code
+    docker run -v mi-volumen:/ruta/del/contenedor imagen:etiqueta
+    
+    ```
+    
+3. Montar un directorio del host en un contenedor al ejecutarlo:
+Si deseas montar un directorio del host en un contenedor, puedes utilizar la opción **`-volume`** o **`v`** y especificar la ruta del directorio del host seguida de la ruta del directorio dentro del contenedor. Por ejemplo:
+    
+    ```
+    bashCopy code
+    docker run -v /ruta/directorio-host:/ruta/directorio-contenedor imagen:etiqueta
+    
+    ```
+    
+4. Utilizar volúmenes en el archivo Dockerfile:
+También puedes utilizar volúmenes en el archivo Dockerfile al construir una imagen. Puedes utilizar la instrucción **`VOLUME`** seguida de la ruta del directorio dentro del contenedor. Por ejemplo:
+    
+    ```
+    bashCopy code
+    VOLUME /ruta/del/contenedor
+    
+    ```
+</details>
+<details>
+<summary><b>Desde docker-compose.yml</b></summary>  
+
+En Docker Compose, puedes definir y utilizar volúmenes en el archivo **`docker-compose.yml`** para gestionar los volúmenes de manera más fácil y estructurada. Aquí tienes un ejemplo de cómo utilizar volúmenes en Docker Compose:
+            
+1. Define un volumen en el archivo **`docker-compose.yml`**:
+Puedes agregar una sección **`volumes`** en tu archivo **`docker-compose.yml`** y especificar el nombre del volumen y la configuración asociada. Por ejemplo:
+    
+    ```
+    yamlCopy code
+    version: '3'
+    services:
+        myservice:
+        image: myimage
+        volumes:
+            - myvolume:/ruta/del/contenedor
+    volumes:
+        myvolume:
+    
+    ```
+    
+2. Monta un volumen en un servicio:
+En la sección **`volumes`** de tu servicio, puedes usar el nombre del volumen definido en la sección **`volumes`** para montarlo en el servicio correspondiente. Por ejemplo, en el servicio **`myservice`**:
+    
+    ```
+    yamlCopy code
+    services:
+        myservice:
+        image: myimage
+        volumes:
+            - myvolume:/ruta/del/contenedor
+    
+    ```
+    
+3. Monta un directorio del host en un servicio:
+Puedes montar un directorio del host en un servicio utilizando la misma sintaxis que en el ejemplo anterior. Simplemente especifica la ruta del directorio del host en lugar del nombre del volumen. Por ejemplo:
+    
+    ```
+    yamlCopy code
+    services:
+        myservice:
+        image: myimage
+        volumes:
+            - /ruta/directorio-host:/ruta/del/contenedor
+    
+    ```
+    
+
+Al utilizar Docker Compose, puedes definir volúmenes y montarlos en tus servicios de manera más organizada. Además, Docker Compose se encargará de gestionar los volúmenes automáticamente, creándolos si no existen y manteniendo su persistencia incluso después de detener o eliminar los contenedores.
+</details>
+</details>
+</details>
+
+<details>
+<summary><b>Ambientes y hot reaload</b></summary>  
+
+En Docker, puedes configurar ambientes y utilizar el hot reload para facilitar el desarrollo de tus aplicaciones. Aquí tienes una explicación de ambos conceptos:
+    
+1. **Ambientes en Docker**:
+Los ambientes en Docker te permiten definir diferentes configuraciones y variables de entorno para tus contenedores, lo que facilita la gestión de distintos entornos, como desarrollo, producción o pruebas. Puedes definir variables de entorno específicas para cada ambiente y utilizarlas en tus contenedores.
+    
+    Para configurar ambientes en Docker, puedes utilizar un archivo **`.env`** para definir las variables de entorno y utilizarlas en tu archivo **`docker-compose.yml`** o en el comando **`docker run`** cuando ejecutas tus contenedores. Por ejemplo:
+    
+    - Crea un archivo **`.env`** y define las variables de entorno para tu ambiente de desarrollo:
+        
+        ```bash
+        # .env (ambiente de desarrollo)
+        ENVIRONMENT=development
+        DB_HOST=localhost
+        DB_PORT=5432
+        
+        ```
+        
+    - Utiliza las variables de entorno en tu archivo **`docker-compose.yml`** para configurar tus servicios:
+        
+        ```yaml
+        version: '3'
+        services:
+            myservice:
+            image: myimage
+            environment:
+                - ENVIRONMENT=${ENVIRONMENT}
+                - DB_HOST=${DB_HOST}
+                - DB_PORT=${DB_PORT}
+        
+        ```
+        
+    - Al ejecutar **`docker-compose up`** o **`docker run`**, Docker utilizará las variables de entorno definidas en el archivo **`.env`** y las pasará a los contenedores.
+    
+    Utilizando ambientes en Docker, puedes personalizar la configuración de tus contenedores para cada entorno y mantener la flexibilidad y portabilidad de tu aplicación.
+    
+2. **Hot Reload en Docker**:
+El hot reload, o recarga en caliente, es una funcionalidad que permite actualizar automáticamente tu aplicación dentro de un contenedor Docker mientras desarrollas, sin tener que detener y volver a construir el contenedor cada vez que realizas un cambio en el código fuente.
+    
+    Para habilitar el hot reload en Docker, puedes utilizar volúmenes para montar el directorio de tu aplicación en el contenedor. De esta manera, cualquier cambio que realices en los archivos de tu aplicación se reflejará inmediatamente en el contenedor sin necesidad de reiniciar o reconstruirlo.
+    
+    Para lograr esto, puedes agregar una entrada de volumen en tu archivo **`docker-compose.yml`** o utilizar la opción **`-v`** al ejecutar el comando **`docker run`**. Por ejemplo:
+    
+    ```yaml
+    version: '3'
+    services:
+        myservice:
+        image: myimage
+        volumes:
+            - ./app:/app
+    
+    ```
+    
+    Con esta configuración, cualquier cambio realizado en los archivos dentro del directorio local **`./app`** se reflejará automáticamente en el directorio **`/app`** dentro del contenedor, lo que activará el hot reload y actualizará tu aplicación en tiempo real.
+    
+    Al utilizar el hot reload en Docker, puedes acelerar el desarrollo de tu aplicación al permitir cambios rápidos y automáticos sin necesidad de reiniciar el contenedor cada vez.
+    
+
+Recuerda ajustar la configuración según tus necesidades y estructura de proyecto, y consulta la documentación oficial de Docker para obtener más detalles sobre cómo configurar ambientes y utilizar el hot reload en Docker.
+</details>
